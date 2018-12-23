@@ -1,0 +1,103 @@
+<html>
+  <img src="./out.svz" />
+  <script>
+    function set_bit(a, k) {
+        a[Math.floor(k/32)] |= 1 << (k%32);
+    }
+    function get_bit(i, k) {
+        return i & (1 << (k%32));
+//        return a[Math.floor(k/32)] & (1 << (k%32));
+    }
+    
+    function process_file(request, event)
+    {
+        var data = request.response;
+        var dv = new DataView(data, 4);
+        var width = dv.getInt32(0, true);
+        var height = dv.getInt32(4, true);
+
+    
+        // var el = (width * height)/32;
+        console.log("Image width: "  + width);
+        console.log("Image height: "  + height);
+
+
+        var pixels = dv.getInt32(4, true);
+
+
+//var c=document.getElementById("myCanvas");
+//var ctx=c.getContext("2d");
+//var imgData=ctx.createImageData(100,100);
+//for (var i=0;i<imgData.data.length;i+=4)
+//  {
+//  imgData.data[i+0]=255;
+//  imgData.data[i+1]=0;
+//  imgData.data[i+2]=0;
+//  imgData.data[i+3]=255;
+//  }
+//		ctx.putImageData(imgData,10,10);
+		
+					     
+//        while (pixels !== "undefined") {					     
+//            for (var j=0; j <32; j++) {
+//		if (get_bit(pixels, j)) {
+//                     console.log("1");
+//                 } else {
+//                     console.log("0");
+//                 }		
+//	    }
+//	    var pixels = dv.getInt32(4, true);
+				   //	}
+
+
+				   
+//					     a[0] = first32;
+//        for (var j=0; j <32; j++) {
+//			     debugger
+//		if (get_bit(a, j)) {
+  //                   console.log("1");
+//                 } else {
+//                     console.log("0");
+//                 }
+  //      }
+
+    
+    //   console.log("number of elements: " + el)
+        // for (var i=1; i <= el; i++) {
+        //     bits = dv.getInt32(4 *(i+1), true);
+        //     for (var j=0; j <32; j++) {
+        //         if (get_bit(bits, j)) {
+        //             console.log("1");
+        //         } else {
+        //             console.log("0");
+        //         }
+        //     }
+        // }
+        
+        
+        //var pixels = dv.getInt32(4, 
+    }
+    
+    function read_file(url) 
+    {
+        var request = new XMLHttpRequest();
+        
+        request.open("GET", url, true);
+        request.responseType = "arraybuffer";
+        request.onload = function(event) {
+            process_file(request, event);
+        };
+        request.send();
+    }
+    
+    window.onload = function() {
+        images = document.images;
+        for (var i=0; i < images.length; i++) {
+            item = images[i];
+            if (item.src.substr(-4,4).toLowerCase() == ".svz") {
+                read_file(item.src);
+            }
+        }
+    }
+  </script>
+</html>
