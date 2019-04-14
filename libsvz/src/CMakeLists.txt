@@ -2,6 +2,7 @@ include_directories(AFTER ${LIBSVZ_INCLUDE_DIRS})
 
 set(LIBSVZ_SRC
 encode.c
+svz.c
 )
 
 set(LIBSVZ_HEADERS
