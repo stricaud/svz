@@ -5,6 +5,11 @@
 
 #define SVZ_MAGIC "SVZ1"
 
+#define svz_set_bit(field, n) (field |= (1 << n))
+#define svz_unset_bit(field, n) (field &= ~(1 << n))
+#define svz_inverse_bit(field, n) (field ^= (1 << n))
+#define svz_get_bit(field, n) (field & (1 << n))
+
 enum _svz_options_t {
 	SVZ_OPTION_ERROR,		   
 };
