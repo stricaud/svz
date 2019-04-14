@@ -1,6 +1,7 @@
 include_directories(AFTER ${LIBSVZ_INCLUDE_DIRS})
 
 set(LIBSVZ_SRC
+features.c
 encode.c
 svz.c
 )
