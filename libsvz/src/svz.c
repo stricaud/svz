@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include <svz/svz.h>
+#include <svz/features.h>
 
 svz_t *svz_new(uint16_t width, uint16_t height)
 {
@@ -15,9 +16,11 @@ svz_t *svz_new(uint16_t width, uint16_t height)
   image->width = width;
   image->height = height;
   image->options = 0;
-  image->data_elements = 0;
-  image->data = NULL;
+  image->number_of_features = 1;
+  //  image->data = NULL;
 
+  svz_features_set_type(&image->features[0], DISPLAYED_PIXELS);
+  
   return image;
 }
 

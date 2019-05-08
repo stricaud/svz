@@ -7,14 +7,20 @@ svz_features_t *svz_features_new(void)
 	if (!features) {
 	  return NULL;
 	}
-	features->feature_id = NOT_SET;
-	features->bitfield = 0;
-	features->colors_list = NULL;
-	features->key = NULL;
-	features->value = NULL;
+	/* features->type = NOT_SET; */
+	/* features->bitfield = 0; */
+	/* features->colors_list = NULL; */
+	/* features->key = NULL; */
+	/* features->value = NULL; */
+	return features;
 }
 
 void svz_features_free(svz_features_t *features)
 {
         free(features);
+}
+
+int svz_features_set_type(svz_features_t *features, svz_feature_type_t type)
+{
+  features->type = type;
 }
