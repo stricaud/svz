@@ -18,8 +18,8 @@ typedef enum _svz_feature_type_t svz_feature_type_t;
 
 struct _svz_features_t {
         svz_feature_type_t type;
-        uint64_t bitfield[IMAGE_BITS_ARRAY_SIZE];
-        char *colors_list; 
+        uint64_t bitfield[IMAGE_MAX_INDEXES];
+        char *colors_list;
         char *key;
         char *value;
 };
