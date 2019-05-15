@@ -3,15 +3,19 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <math.h>
 
 #include <svz/features.h>
 
 #define SVZ_MAGIC "SVZ1"
 
+#define SVZ_BITFIELD_EL_SIZE 64
+
 #define svz_set_bit(field, n) (field |= (1 << n))
 #define svz_unset_bit(field, n) (field &= ~(1 << n))
 #define svz_inverse_bit(field, n) (field ^= (1 << n))
 #define svz_get_bit(field, n) (field & (1 << n))
+#define svz_bit_index(n) (int)floor((double)n/SVZ_BITFIELD_EL_SIZE)
 
 enum _svz_options_t {
 	SVZ_OPTION_ERROR,		   

@@ -40,7 +40,7 @@ include(CheckLibraryExists)
 include(GNUInstallDirs)
 
 set(LIBSVZ_INCLUDE_DIRS "${libsvz_SOURCE_DIR}/src/include/" "${libsvz_BINARY_DIR}/src/include")
-set(LIBSVZ_LINK_LIBRARIES "")
+set(LIBSVZ_LINK_LIBRARIES "m")
 set(LIBSVZ_LIBRARY "svz")
 
 add_subdirectory(src)

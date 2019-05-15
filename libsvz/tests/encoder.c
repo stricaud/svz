@@ -6,6 +6,10 @@
 int main(void)
 {
   svz_t *svz;
+
+  printf("%d->%d\n", 42, svz_bit_index(42));
+  printf("%d->%d\n", 63, svz_bit_index(63));
+  printf("%d->%d\n", 82, svz_bit_index(82));
   
   svz_image_defines_to_stdout();
   svz = svz_new(5, 5);
