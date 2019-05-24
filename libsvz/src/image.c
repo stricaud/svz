@@ -18,14 +18,9 @@ int svz_image_write_pixel(svz_t *svz, uint16_t x, uint16_t y)
     return -1;
   }
   
-  pos = (svz->width * (y - 1)) + x;
-  index = svz_bit_index(pos);
-  left = pos - (index * SVZ_BITFIELD_EL_SIZE);
+  pos = x * svz->width + y;
+  svz_set_bit(svz->features[0].bitfield, pos);
 
-  printf("%s: x=%d, y=%d, pos=%ld,index=%d,left=%d\n", __FUNCTION__, x, y, pos, index, left);
-  
-  svz_set_bit(svz->features[0].bitfield[index], left);
-  
   return 0;
 }
 
@@ -48,24 +43,28 @@ void svz_image_pixels_debug(svz_t *svz)
   size_t bitcount = 0;
   size_t index = 0;
   
-  uint64_t n = svz->features[0].bitfield[index];
   while (bitcount < (svz->width * svz->height)) {
     if (!(bitcount%svz->width)) {
       printf("\n");
     }
-    if (!(bitcount%64)) {
-      index++;
-      n = svz->features[0].bitfield[index];      
-    }
-    if (n & 1) {
+
+    if (svz_get_bit(svz->features[0].bitfield, bitcount)) {
       printf("1");
     } else {
       printf("0");
-    }    
-    n >>= 1;
+    }
+    
     bitcount++;
   }
   printf("\n");
+}
+
+static void print_bin(uint64_t n)
+{
+  if (n > 1) {
+    print_bin(n>>1);
+  }
+  printf("%d", n & 1);
 }
 
 void svz_image_defines_to_stdout(void)

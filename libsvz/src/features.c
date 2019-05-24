@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include <svz/features.h>
 
 svz_features_t *svz_features_new(void)

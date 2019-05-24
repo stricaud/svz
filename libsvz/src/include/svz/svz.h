@@ -9,14 +9,13 @@
 
 #define SVZ_MAGIC "SVZ1"
 
-#define SVZ_BITFIELD_EL_SIZE 64
+#define SVZ_BITFIELD_EL_SIZE 32
 
-#define svz_set_bit(field, n) (field |= (1 << n))
-#define svz_unset_bit(field, n) (field &= ~(1 << n))
-#define svz_inverse_bit(field, n) (field ^= (1 << n))
-#define svz_get_bit(field, n) (field & (1 << n))
-#define svz_bit_index(n) (int)floor((double)n/SVZ_BITFIELD_EL_SIZE)
-
+#define svz_set_bit(array, pos) (array[(pos/SVZ_BITFIELD_EL_SIZE)] |= (1 << (pos%SVZ_BITFIELD_EL_SIZE)))
+#define svz_unset_bit(array, pos) (array[(pos/SVZ_BITFIELD_EL_SIZE)] &= ~(1 << (pos%SVZ_BITFIELD_EL_SIZE)))
+#define svz_inverse_bit(array, pos) (array[(pos/SVZ_BITFIELD_EL_SIZE)] ^= (1 << (pos%SVZ_BITFIELD_EL_SIZE)))
+#define svz_get_bit(array, pos) (array[(pos/SVZ_BITFIELD_EL_SIZE)] & (1 << (pos%SVZ_BITFIELD_EL_SIZE)))
+  
 enum _svz_options_t {
 	SVZ_OPTION_ERROR,		   
 };
