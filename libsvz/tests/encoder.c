@@ -17,6 +17,7 @@ int main(void)
   svz_image_pixels_debug(svz);
 
   svz_image_write_gif(svz, "out.gif");
+  svz_encode_to_file(svz, "out.svz");
   
   svz_free(svz);
 }
