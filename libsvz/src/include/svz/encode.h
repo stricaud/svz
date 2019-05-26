@@ -5,6 +5,6 @@
 
 #define HASH_LEN 64
 
-svz_t *svz_new(uint16_t width, uint16_t height);
+int svz_encode_to_file(svz_t *svz, char *filename);
 
 #endif	/* _SVZ_ENCODE_H_ */

@@ -10,6 +10,7 @@
 #define SVZ_MAGIC "SVZ1"
 
 #define SVZ_BITFIELD_EL_SIZE 32
+#define SVZ_FEATURES_MAX 255
 
 #define svz_set_bit(array, pos) (array[(pos/SVZ_BITFIELD_EL_SIZE)] |= (1 << (pos%SVZ_BITFIELD_EL_SIZE)))
 #define svz_unset_bit(array, pos) (array[(pos/SVZ_BITFIELD_EL_SIZE)] &= ~(1 << (pos%SVZ_BITFIELD_EL_SIZE)))
@@ -26,11 +27,12 @@ struct _svz_t {
   uint16_t height;
   svz_options_t options;
   uint8_t number_of_features;
-  svz_features_t features[255];
+  svz_features_t features[SVZ_FEATURES_MAX];
 };
 typedef struct _svz_t svz_t;
 
 svz_t *svz_new(uint16_t width, uint16_t height);
 void svz_free(svz_t *svz);
+int svz_append_feature(svz_t *svz, svz_feature_type_t feature_type);
 
 #endif	/* _SVZ_H_ */

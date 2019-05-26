@@ -36,35 +36,27 @@ int svz_image_write_pixel(svz_t *svz, uint16_t x, uint16_t y)
   return 0;
 }
 
-int svz_image_write_pixel_safe(svz_t *svz, uint16_t x, uint16_t y)
-{
-  if ((x <= svz->width) || (y <= svz->height)) {
-    return -1;
-  }
-  
-  svz_image_write_pixel(svz, x, y);
-  
-  return 0;
-}
-
 void svz_image_pixels_debug(svz_t *svz)
-{
+{  
   size_t bitcount = 0;
-  
-  while (bitcount < (svz->width * svz->height)) {
-    if (!(bitcount%svz->width)) {
-      printf("\n");
-    }
 
-    if (svz_get_bit(svz->features[0].bitfield, bitcount)) {
-      printf("1");
-    } else {
-      printf("0");
+  printf("number of features:%d\n", svz->number_of_features);
+  for (int i = 0; i < svz->number_of_features; i++) {
+    switch(svz->features[i].type) {
+    case DISPLAYED_PIXELS:
+      printf("\nDISPLAYED_PIXELS\n");
+      svz_features_debug_displayed_pixels(svz, &svz->features[i]);
+      break;
+    case SELECTED_PIXELS:
+      printf("\nSELECTED_PIXELS\n");
+      svz_features_debug_selected_pixels(svz, &svz->features[i]);
+      break;
+    default:
+      fprintf(stderr, "Error: unknown feature type\n");
+      break;
     }
-    
-    bitcount++;
   }
-  printf("\n");
+  
 }
 
 static void print_bin(uint64_t n)
@@ -130,3 +122,4 @@ void svz_image_write_gif(svz_t *svz, char *gif_file_path)
   GifFreeMapObject(gif_cmap);
 
 }
+
