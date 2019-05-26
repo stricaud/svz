@@ -108,7 +108,11 @@ void svz_image_write_gif(svz_t *svz, char *gif_file_path)
   
   while (bitcount < (svz->width * svz->height)) {
     if (svz_get_bit(svz->features[0].bitfield, bitcount)) {
-      error = EGifPutPixel(gif_file, GIF_COLOR_BLACK);
+      if (svz_get_bit(svz->features[1].bitfield, bitcount)) {
+	error = EGifPutPixel(gif_file, GIF_COLOR_BLACK);
+      } else {
+	error = EGifPutPixel(gif_file, 55);
+      }
     } else {
       error = EGifPutPixel(gif_file, GIF_COLOR_WHITE);
     }
