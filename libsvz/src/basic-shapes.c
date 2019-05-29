@@ -108,6 +108,8 @@ void svz_draw_bresenham_circle(svz_t *svz, int xc, int yc, int r)
   int x = 0;
   int y = r;
   int D = 3 - 2 * r;
+
+  
   _draw_bresenham_circle_subsequence_points(svz, xc, yc, x, y);
   while (y >= x) {
     x++;
@@ -122,6 +124,7 @@ void svz_draw_bresenham_circle(svz_t *svz, int xc, int yc, int r)
 }
 
 void svz_draw_circle(svz_t *svz, int x, int y, int r)
-{
+{  
+ 
   svz_draw_bresenham_circle(svz, x, y, r);
 }

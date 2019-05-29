@@ -33,6 +33,7 @@ int svz_encode_to_file(svz_t *svz, char *filename)
     switch(svz->features[i].type) {
     case DISPLAYED_PIXELS:
       max_indexes = (svz->width * svz->height)%SVZ_BITFIELD_EL_SIZE;
+      printf("max indexes:%d\n", max_indexes);
       for (int j=0; j < max_indexes; j++) {
 	fwrite(&svz->features[SVZ_DISPLAYED_PIXELS_INDEX], sizeof(int), 1, fp);
       }

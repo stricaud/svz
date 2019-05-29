@@ -34,5 +34,6 @@ typedef struct _svz_t svz_t;
 svz_t *svz_new(uint16_t width, uint16_t height);
 void svz_free(svz_t *svz);
 int svz_append_feature(svz_t *svz, svz_feature_type_t feature_type);
+int svz_get_total_bits_indexes(svz_t *svz);
 
 #endif	/* _SVZ_H_ */

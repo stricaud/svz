@@ -42,8 +42,14 @@ int svz_append_feature(svz_t *svz, svz_feature_type_t feature_type)
   }
 
   svz_features_set_type(&svz->features[svz->number_of_features], feature_type);
+  svz_features_zero(svz, &svz->features[svz->number_of_features]);
 
   svz->number_of_features++;  
   
   return 0;
+}
+
+int svz_get_total_bits_indexes(svz_t *svz)
+{
+  return (svz->width * svz->height) % SVZ_BITFIELD_EL_SIZE;
 }
