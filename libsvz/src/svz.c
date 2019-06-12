@@ -20,7 +20,8 @@ svz_t *svz_new(uint16_t width, uint16_t height)
   image->options = 0;
   image->number_of_features = 0;
   //  image->data = NULL;
-
+  memset(image->features, 0, SVZ_FEATURES_MAX);
+  
   svz_append_feature(image, DISPLAYED_PIXELS);
   svz_append_feature(image, SELECTED_PIXELS);
   
@@ -34,16 +35,19 @@ void svz_free(svz_t *svz)
 
 int svz_append_feature(svz_t *svz, svz_feature_type_t feature_type)
 {
-  printf("append feature\n");
+  printf("We append feature %d to feature number %d\n", feature_type, svz->number_of_features);
   
   if (svz->number_of_features >= (SVZ_FEATURES_MAX)) {
     fprintf(stderr, "Error: reached maximum number of features (%d)\n", SVZ_FEATURES_MAX);
     return -1;
-  }
-
+  }  
+  
+  svz_features_reset(&svz->features[svz->number_of_features]);
   svz_features_set_type(&svz->features[svz->number_of_features], feature_type);
-  svz_features_zero(svz, &svz->features[svz->number_of_features]);
-
+  if (feature_type == SELECTED_PIXELS) {
+    svz_feature_selected_pixels_select_all(&svz->features[svz->number_of_features]);
+  }
+  
   svz->number_of_features++;  
   
   return 0;

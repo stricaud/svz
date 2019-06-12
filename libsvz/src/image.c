@@ -52,7 +52,7 @@ void svz_image_pixels_debug(svz_t *svz)
       svz_features_debug_selected_pixels(svz, &svz->features[i]);
       break;
     default:
-      fprintf(stderr, "Error: unknown feature type\n");
+      fprintf(stderr, "%s Error[%d]: unknown feature type: %d\n", __FUNCTION__, i, svz->features[i].type);
       break;
     }
   }
@@ -124,6 +124,7 @@ void svz_image_write_gif(svz_t *svz, char *gif_file_path)
                        
   EGifCloseFile(gif_file, &error);
   GifFreeMapObject(gif_cmap);
-
+  /* GifFreeSavedImages(gif_file); */
+  
 }
 

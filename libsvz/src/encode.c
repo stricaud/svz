@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <blake2.h>
 
@@ -32,21 +33,21 @@ int svz_encode_to_file(svz_t *svz, char *filename)
   for (int i=0; i < svz->number_of_features; i++) {
     switch(svz->features[i].type) {
     case DISPLAYED_PIXELS:
-      max_indexes = (svz->width * svz->height)%SVZ_BITFIELD_EL_SIZE;
+      max_indexes = (svz->width * svz->height)/SVZ_BITFIELD_EL_SIZE;
       printf("max indexes:%d\n", max_indexes);
       for (int j=0; j < max_indexes; j++) {
 	fwrite(&svz->features[SVZ_DISPLAYED_PIXELS_INDEX], sizeof(int), 1, fp);
       }
       break;
     case SELECTED_PIXELS:
-      max_indexes = (svz->width * svz->height)%SVZ_BITFIELD_EL_SIZE;
+      max_indexes = (svz->width * svz->height)/SVZ_BITFIELD_EL_SIZE;
       for (int j=0; j < max_indexes; j++) {
 	fwrite(&svz->features[SVZ_SELECTED_PIXELS_INDEX], sizeof(int), 1, fp);
       }
       break;
       break;
     default:
-      fprintf(stderr, "Error: unknown feature type\n");
+      fprintf(stderr, "%s Error[%d]: unknown feature type: %d\n", __FUNCTION__, i, svz->features[i].type);
       break;      
     }
   }

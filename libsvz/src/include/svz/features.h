@@ -11,7 +11,7 @@ typedef struct _svz_t svz_t;
 #define SVZ_DISPLAYED_PIXELS_INDEX 0 /* Pixels are *always* on the first position */
 #define SVZ_SELECTED_PIXELS_INDEX 1 /* Selected Pixels are *always* on the second position */
 
-enum _svz_feature_type_t {
+enum _svz_feature_type_t {			
         DISPLAYED_PIXELS,
 	SELECTED_PIXELS,
 	COLOR_FOR_PIXELS, // Using bitfields to allow one color
@@ -33,8 +33,9 @@ typedef struct _svz_features_t svz_features_t;
 svz_features_t *svz_features_new(void);
 void svz_features_free(svz_features_t *features);  
 int svz_features_set_type(svz_features_t *features, svz_feature_type_t type);
+int svz_feature_selected_pixels_select_all(svz_features_t *feature);
 void svz_features_debug_displayed_pixels(svz_t *svz, svz_features_t *features);
 void svz_features_debug_selected_pixels(svz_t *svz, svz_features_t *features);
-void svz_features_zero(svz_t *svz, svz_features_t *features);
+void svz_features_reset(svz_features_t *features);
 
 #endif // _SVZ_FEATURES_H_
