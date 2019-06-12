@@ -9,7 +9,7 @@ int main(void)
 {
   svz_t *svz;
 
-  svz = svz_new(100, 100);
+  svz = svz_new(20, 20);
 
   /* svz_draw_line(svz, 1, 5, 10, 5); */
   

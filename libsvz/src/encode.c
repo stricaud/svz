@@ -24,7 +24,20 @@ int svz_encode_to_file(svz_t *svz, char *filename)
   fwrite(&svz->options, sizeof(svz_options_t), 1, fp);
 
   blake2b_init(&b2state, HASH_LEN);  
-  blake2b_update(&b2state, (const uint8_t *)"foo", 4);
+  for (int i=0; i < svz->number_of_features; i++) {
+    switch(svz->features[i].type) {
+    case DISPLAYED_PIXELS:
+      max_indexes = (svz->width * svz->height)/SVZ_BITFIELD_EL_SIZE;
+      blake2b_update(&b2state, (const uint8_t *)&svz->features[SVZ_DISPLAYED_PIXELS_INDEX], sizeof(int) * max_indexes);
+      break;
+    case SELECTED_PIXELS:
+      max_indexes = (svz->width * svz->height)/SVZ_BITFIELD_EL_SIZE;
+      blake2b_update(&b2state, (const uint8_t *)&svz->features[SVZ_SELECTED_PIXELS_INDEX], sizeof(int) * max_indexes);
+      break;      
+    default:
+      break;
+    }
+  }
   blake2b_final(&b2state, hash, HASH_LEN);
   fwrite(hash, HASH_LEN, 1, fp);
 
@@ -34,15 +47,14 @@ int svz_encode_to_file(svz_t *svz, char *filename)
     switch(svz->features[i].type) {
     case DISPLAYED_PIXELS:
       max_indexes = (svz->width * svz->height)/SVZ_BITFIELD_EL_SIZE;
-      printf("max indexes:%d\n", max_indexes);
       for (int j=0; j < max_indexes; j++) {
-	fwrite(&svz->features[SVZ_DISPLAYED_PIXELS_INDEX], sizeof(int), 1, fp);
+	fwrite(&svz->features[SVZ_DISPLAYED_PIXELS_INDEX], sizeof(int), max_indexes, fp);
       }
       break;
     case SELECTED_PIXELS:
       max_indexes = (svz->width * svz->height)/SVZ_BITFIELD_EL_SIZE;
       for (int j=0; j < max_indexes; j++) {
-	fwrite(&svz->features[SVZ_SELECTED_PIXELS_INDEX], sizeof(int), 1, fp);
+	fwrite(&svz->features[SVZ_SELECTED_PIXELS_INDEX], sizeof(int), max_indexes, fp);
       }
       break;
       break;
