@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <blake2.h>
 
@@ -42,7 +41,7 @@ int svz_encode_to_file(svz_t *svz, char *filename)
   blake2b_final(&b2state, hash, HASH_LEN);
   fwrite(hash, HASH_LEN, 1, fp);
 
-  fwrite(&svz->number_of_features, sizeof(uint8_t), svz->number_of_features, fp);
+  fwrite(&svz->number_of_features, sizeof(uint8_t), 1, fp);
 
   for (int i=0; i < svz->number_of_features; i++) {
     switch(svz->features[i].type) {
@@ -51,7 +50,7 @@ int svz_encode_to_file(svz_t *svz, char *filename)
       fwrite(&feature_id, sizeof(uint8_t), 1, fp);
       max_indexes = (svz->width * svz->height)/SVZ_BITFIELD_EL_SIZE;
       for (int j=0; j < max_indexes; j++) {
-	fwrite(&svz->features[SVZ_DISPLAYED_PIXELS_INDEX], sizeof(int), max_indexes, fp);
+	fwrite(&svz->features[SVZ_DISPLAYED_PIXELS_INDEX].bitfield[j], sizeof(int), max_indexes, fp);
       }
       break;
     case SELECTED_PIXELS:
@@ -59,7 +58,7 @@ int svz_encode_to_file(svz_t *svz, char *filename)
       fwrite(&feature_id, sizeof(uint8_t), 1, fp);
       max_indexes = (svz->width * svz->height)/SVZ_BITFIELD_EL_SIZE;
       for (int j=0; j < max_indexes; j++) {
-	fwrite(&svz->features[SVZ_SELECTED_PIXELS_INDEX], sizeof(int), max_indexes, fp);
+	fwrite(&svz->features[SVZ_SELECTED_PIXELS_INDEX].bitfield[j], sizeof(int), max_indexes, fp);
       }
       break;
       break;

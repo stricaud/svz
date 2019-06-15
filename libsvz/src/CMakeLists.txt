@@ -2,8 +2,9 @@ include_directories(AFTER ${LIBSVZ_INCLUDE_DIRS})
 
 set(LIBSVZ_SRC
 basic-shapes.c
-features.c
+decode.c
 encode.c
+features.c
 image.c
 svz.c
 )
