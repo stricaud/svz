@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <blake2.h>
+#include <lzma.h>
 
 #include <svz/svz.h>
 #include <svz/encode.h>
@@ -50,7 +51,7 @@ int svz_encode_to_file(svz_t *svz, char *filename)
       fwrite(&feature_id, sizeof(uint8_t), 1, fp);
       max_indexes = (svz->width * svz->height)/SVZ_BITFIELD_EL_SIZE;
       for (int j=0; j < max_indexes; j++) {
-	fwrite(&svz->features[SVZ_DISPLAYED_PIXELS_INDEX].bitfield[j], sizeof(int), max_indexes, fp);
+	fwrite(&svz->features[SVZ_DISPLAYED_PIXELS_INDEX].bitfield[j], sizeof(int), 1, fp);
       }
       break;
     case SELECTED_PIXELS:
@@ -58,7 +59,7 @@ int svz_encode_to_file(svz_t *svz, char *filename)
       fwrite(&feature_id, sizeof(uint8_t), 1, fp);
       max_indexes = (svz->width * svz->height)/SVZ_BITFIELD_EL_SIZE;
       for (int j=0; j < max_indexes; j++) {
-	fwrite(&svz->features[SVZ_SELECTED_PIXELS_INDEX].bitfield[j], sizeof(int), max_indexes, fp);
+	fwrite(&svz->features[SVZ_SELECTED_PIXELS_INDEX].bitfield[j], sizeof(int), 1, fp);
       }
       break;
       break;

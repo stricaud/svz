@@ -42,7 +42,7 @@ svz_t *svz_decode_from_file(char *filename)
     fread(&svz->features[i].type, sizeof(uint8_t), 1, fp);
     max_indexes = (svz->width * svz->height)/SVZ_BITFIELD_EL_SIZE;
     for (int j=0; j < max_indexes; j++) {
-      fread(&svz->features[i].bitfield[j], sizeof(int), max_indexes, fp);
+      fread(&svz->features[i].bitfield[j], sizeof(int), 1, fp);
     }
   }
   
