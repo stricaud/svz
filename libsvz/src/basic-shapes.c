@@ -1,3 +1,4 @@
+
 #include <stdint.h>
 
 #include <svz/svz.h>
@@ -127,4 +128,12 @@ void svz_draw_circle(svz_t *svz, int x, int y, int r)
 {  
  
   svz_draw_bresenham_circle(svz, x, y, r);
+}
+
+void svz_draw_rectangle(svz_t *svz, int x, int y, int width, int height)
+{
+  svz_draw_line(svz, x, y, x+width-1, y);
+  svz_draw_line(svz, x, y+height-1, x+width-1, y+height-1);
+  svz_draw_line(svz, x, y, x, y+height-1);
+  svz_draw_line(svz, x+width-1, y, x+width-1, y+height-1);  
 }
