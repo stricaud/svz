@@ -41,13 +41,14 @@ include(FindPkgConfig)
 include(GNUInstallDirs)
 
 pkg_check_modules(LIBLZMA liblzma REQUIRED)
+pkg_check_modules(FREETYPE freetype2 REQUIRED)
 find_package(GIF REQUIRED)
 find_library(LIBB2_LIBRARY libb2.a b2 PATHS lib)
 find_path(LIBB2_INCLUDE blake2.h PATHS include)
 message(STATUS "found libb2 at ${LIBB2_LIBRARY} ${LIBB2_INCLUDE}")
 
-set(LIBSVZ_INCLUDE_DIRS "${LIBB2_INCLUDE}" "${GIF_INCLUDE_DIRS}" "${libsvz_SOURCE_DIR}/src/include/" "${libsvz_BINARY_DIR}/src/include" "${LIBLZMA_INCLUDE_DIRS}")
-set(LIBSVZ_LINK_LIBRARIES "${LIBB2_LIBRARY}" "${GIF_LIBRARIES}" "m" "${LIBLZMA_LIBRARIES}")
+set(LIBSVZ_INCLUDE_DIRS "${LIBB2_INCLUDE}" "${GIF_INCLUDE_DIRS}" "${libsvz_SOURCE_DIR}/src/include/" "${libsvz_BINARY_DIR}/src/include" "${LIBLZMA_INCLUDE_DIRS} ${FREETYPE_INCLUDE_DIRS}")
+set(LIBSVZ_LINK_LIBRARIES "${LIBB2_LIBRARY}" "${GIF_LIBRARIES}" "m" "${LIBLZMA_LIBRARIES}" "${FREETYPE_LIBRARIES}")
 set(LIBSVZ_LIBRARY "svz")
 
 add_subdirectory(src)

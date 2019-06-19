@@ -30,7 +30,7 @@ int svz_image_write_pixel(svz_t *svz, uint16_t x, uint16_t y)
     return -1;
   }
   
-  pos = x * svz->width + y;
+  pos = y * svz->width + x;
   svz_set_bit(svz->features[0].bitfield, pos);
 
   return 0;
@@ -49,7 +49,7 @@ void svz_image_pixels_debug(svz_t *svz)
       break;
     case SELECTED_PIXELS:
       printf("\nSELECTED_PIXELS\n");
-      svz_features_debug_selected_pixels(svz, &svz->features[i]);
+      /* svz_features_debug_selected_pixels(svz, &svz->features[i]); */
       break;
     default:
       fprintf(stderr, "%s Error[%d]: unknown feature type: %d\n", __FUNCTION__, i, svz->features[i].type);

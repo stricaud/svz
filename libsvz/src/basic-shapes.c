@@ -137,3 +137,8 @@ void svz_draw_rectangle(svz_t *svz, int x, int y, int width, int height)
   svz_draw_line(svz, x, y, x, y+height-1);
   svz_draw_line(svz, x+width-1, y, x+width-1, y+height-1);  
 }
+
+void svz_draw_point(svz_t *svz, int x, int y)
+{
+  svz_image_write_pixel(svz, x, y);
+}
