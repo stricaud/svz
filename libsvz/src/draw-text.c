@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include <svz/svz.h>
 #include <svz/image.h>
@@ -7,32 +8,69 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-int draw_bitmap(svz_t *svz, int max_height, int actual_top, FT_Bitmap *bitmap, FT_Int x, FT_Int y)
+#define DPI 72
+
+int draw_bitmap(svz_t *svz, FT_Face *face, int max_height, int actual_top, FT_Bitmap *bitmap, FT_Int x, FT_Int y)
 {
-	FT_Int  i, j, p, q;
-	FT_Int  x_max = x + bitmap->width;
-	FT_Int  y_max = y + bitmap->rows;
-	unsigned char ch;
-	int padding = 0;
+  FT_Int  i, j, p, q;
+  FT_Int  x_max = x + bitmap->width;
+  FT_Int  y_max = y + bitmap->rows;
+  FT_Glyph_Metrics metrics;
+  unsigned char ch;
+  int lower=0;
+  
+  metrics = (*face)->glyph->metrics;
 
- 	x++; y++;
+  printf("horiBearingY:%d\n", metrics.horiBearingY);
+  printf("height:%d\n", metrics.height);
+  lower = (int)round((double)(metrics.height - metrics.horiBearingY)/72);
+  printf("lower:%d\n", lower);
+  
+  
+  if (!bitmap->rows) { return 0; } // We have a space
 
-	if (!bitmap->rows) { return 0; } // We have a space
+  for ( i = x, p = 0; i < x_max; i++, p++ )
+  {
+    for ( j = y, q = 0; j < y_max; j++, q++ )
+    {
+	    ch = bitmap->buffer[q * bitmap->width + p];
+	    if (ch) {
+		    svz_image_write_pixel(svz, i, j + lower);
+	    }
+	    /* if ( i < 0      || j < 0       || */
+      /*      i >= WIDTH || j >= HEIGHT ) */
+      /*   continue; */
 
-	for ( j = y, q = 0; j < y_max; j++, q++ )
-	{
-		for ( i = x, p = 0; i < x_max; i++, p++ ){
-			ch = bitmap->buffer[q * bitmap->width + p];
-			if (ch) {
-			  if (max_height != actual_top) {
-			    padding = max_height - actual_top;
-			  }
-			  svz_image_write_pixel(svz, i, j+padding);
-			} 
-		}
-	}
+      /* svz_image_write_pixel(svz, i, j+padding); */
+      /* image[j][i] |= bitmap->buffer[q * bitmap->width + p]; */
+    }
+  }
+
 	
-	return 0;
+	/* FT_Int  i, j, p, q; */
+	/* FT_Int  x_max = x + bitmap->width; */
+	/* FT_Int  y_max = y + bitmap->rows; */
+	/* unsigned char ch; */
+	/* int padding = 0; */
+
+ 	/* x++; y++; */
+
+	/* if (!bitmap->rows) { return 0; } // We have a space */
+
+	/* for ( j = y, q = 0; j < y_max; j++, q++ ) */
+	/* { */
+	/* 	for ( i = x, p = 0; i < x_max; i++, p++ ){ */
+	/* 		ch = bitmap->buffer[q * bitmap->width + p]; */
+	/* 		if (ch) { */
+	/* 		  if (max_height != actual_top) { */
+	/* 		    padding = max_height - actual_top; */
+	/* 		  } */
+	/* 		  svz_image_write_pixel(svz, i, j+padding); */
+	/* 		}  */
+	/* 	} */
+	/* } */
+	
+	/* return 0; */
 }
 
 int svz_draw_text(svz_t *svz, char *str, int x, int y)
@@ -59,7 +97,7 @@ int svz_draw_text(svz_t *svz, char *str, int x, int y)
     return -1;
   }
 
-  error = FT_Set_Pixel_Sizes(face, 15 /* pixel width */, 15 /* pixel height*/);
+  error = FT_Set_Pixel_Sizes(face, 15 /* pixel width*/, 15 /* pixel height*/);
   /* if (error) { */
   /*   fprintf(stderr, "Error Setting Pixel Size\n"); */
   /*   return -1; */
@@ -111,8 +149,12 @@ int svz_draw_text(svz_t *svz, char *str, int x, int y)
       return -1;
     }
 
+/* FT_Outline_Translate( const FT_Outline*  outline, */
+/*                         FT_Pos             xOffset, */
+/*                         FT_Pos             yOffset ); */
+    
     /* printf("drawing %c (top:%d) (rows:%d) (mah:%d)\n", str[i], face->glyph->bitmap_top, face->glyph->bitmap.rows); */
-    draw_bitmap(svz, max_height, face->glyph->bitmap.rows, &face->glyph->bitmap,
+    draw_bitmap(svz, &face, max_height, face->glyph->bitmap.rows, &face->glyph->bitmap,
 		pen_x + face->glyph->bitmap_left,
 		pen_y + face->glyph->bitmap_top - face->glyph->bitmap.rows);
 
