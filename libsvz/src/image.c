@@ -120,7 +120,7 @@ void svz_image_write_gif(svz_t *svz, char *gif_file_path)
     bitcount++;
   }
   
-  EGifSpew(gif_file);
+  EGifSpew(gif_file, &error);
                        
   EGifCloseFile(gif_file, &error);
   GifFreeMapObject(gif_cmap);

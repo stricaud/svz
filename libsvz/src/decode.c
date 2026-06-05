@@ -11,7 +11,7 @@
 svz_t *svz_decode_from_file(char *filename)
 {
 	FILE *fp;
-	char magic[4];
+	char magic[5];
 	svz_t *svz;
 	uint16_t width, height;
 	uint8_t hash[HASH_LEN];

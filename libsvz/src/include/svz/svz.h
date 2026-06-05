@@ -29,7 +29,6 @@ struct _svz_t {
   uint8_t number_of_features;
   svz_features_t features[SVZ_FEATURES_MAX];
 };
-typedef struct _svz_t svz_t;
 
 svz_t *svz_new(uint16_t width, uint16_t height);
 void svz_free(svz_t *svz);
